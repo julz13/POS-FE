@@ -132,6 +132,14 @@ export const useShiftStore = defineStore('shifts', () => {
 
   // ── Computed ──
   const isOpen       = computed(() => !!activeShift.value && activeShift.value.status === 'open')
+  const isStaleShift = computed(() => {
+    if (!activeShift.value || activeShift.value.status !== 'open') return false
+    const openedAt = activeShift.value.openedAt
+    if (!openedAt) return false
+    const openDate = new Date(openedAt).toISOString().slice(0, 10)
+    const today    = new Date().toISOString().slice(0, 10)
+    return openDate < today
+  })
   const cashInTotal  = computed(() => (activeShift.value?.movements ?? []).filter(m => m.type === 'in').reduce((s, m) => s + m.amount, 0))
   const cashOutTotal = computed(() => (activeShift.value?.movements ?? []).filter(m => m.type === 'out').reduce((s, m) => s + m.amount, 0))
 
@@ -141,7 +149,7 @@ export const useShiftStore = defineStore('shifts', () => {
   }
 
   return {
-    activeShift, shiftHistory, loading, pagination, isOpen, cashInTotal, cashOutTotal,
+    activeShift, shiftHistory, loading, pagination, isOpen, isStaleShift, cashInTotal, cashOutTotal,
     loadActiveShift, fetchHistory, fetchPage, openShift, addMovement, closeShift,
   }
 })

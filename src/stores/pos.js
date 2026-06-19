@@ -250,7 +250,7 @@ export const usePosStore = defineStore('pos', () => {
     const txn = {
       ...data.data,
       amountPaid,
-      change: parseFloat((amountPaid - total.value).toFixed(2)),
+      change: parseFloat(data.data.changeGiven ?? (amountPaid - total.value).toFixed(2)),
     }
 
     // Refresh transaction list in background

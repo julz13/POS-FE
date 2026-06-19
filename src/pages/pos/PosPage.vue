@@ -1,4 +1,34 @@
 <template>
+  <!-- ══ STALE SHIFT BLOCKER ══ -->
+  <div v-if="shiftStore.isStaleShift" class="fixed inset-0 z-[200] bg-black/50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 text-center space-y-5">
+      <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto">
+        <AlertTriangle class="w-8 h-8 text-red-500" />
+      </div>
+      <div>
+        <h2 class="text-xl font-bold text-gray-800">Unclosed Shift</h2>
+        <p class="text-sm text-gray-500 mt-2">
+          <strong class="text-gray-800">{{ shiftStore.activeShift.cashierName || 'A cashier' }}</strong>
+          opened a shift on
+          <strong class="text-gray-800">{{ new Date(shiftStore.activeShift.openedAt).toLocaleDateString('en-PH', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) }}</strong>
+          at
+          <strong class="text-gray-800">{{ new Date(shiftStore.activeShift.openedAt).toLocaleTimeString('en-PH', { hour: '2-digit', minute: '2-digit' }) }}</strong>
+          and never completed End-of-Day.
+        </p>
+        <p class="text-sm text-red-600 font-medium mt-3">
+          The POS cannot be used until the previous shift is closed.
+        </p>
+      </div>
+      <div class="space-y-2">
+        <button @click="router.push('/shifts')"
+          class="w-full bg-blue-600 text-white py-3 rounded-xl text-sm font-semibold hover:bg-blue-700 transition-colors">
+          Go to Shifts to Close It
+        </button>
+        <p class="text-xs text-gray-400">Contact the previous cashier or a manager to perform EOD.</p>
+      </div>
+    </div>
+  </div>
+
   <div class="flex gap-3" style="height: calc(100vh - 120px)">
 
     <!-- ══ LEFT: Product lookup panel ══ -->
@@ -1137,13 +1167,13 @@ import { useAuthStore }      from '@/stores/auth'
 import { useCustomerStore }     from '@/stores/customers'
 import { useVoucherStore }      from '@/stores/vouchers'
 import { useTransactionStore }  from '@/stores/transactions'
-import { useRoute }             from 'vue-router'
+import { useRoute, useRouter }  from 'vue-router'
 import DiscountModal      from '@/components/pos/DiscountModal.vue'
 import ManagerPinModal    from '@/components/shared/ManagerPinModal.vue'
 import {
   Search, ShoppingCart, X, Minus, Printer, ScanSearch,
   Trash2, Package, PauseCircle, PlayCircle, CreditCard, UserCircle, Tag, Plus, Pencil, ChevronLeft,
-  CheckCircle2
+  CheckCircle2, AlertTriangle
 } from '@lucide/vue'
 
 const posStore      = usePosStore()
@@ -1156,6 +1186,7 @@ const custStore     = useCustomerStore()
 const voucherStore  = useVoucherStore()
 const txnStore      = useTransactionStore()
 const route         = useRoute()
+const router        = useRouter()
 
 // Auto-open reprint modal if navigated here with ?reprint=1
 onMounted(() => {
@@ -1614,7 +1645,7 @@ function handleDiscountRemove() {
 // of how many products are currently loaded in memory
 const categories = computed(() => {
   if (productStore.categories.length) {
-    return productStore.categories.map(c => c.name ?? c).filter(Boolean).sort()
+    return [...new Set(productStore.categories.map(c => c.name ?? c).filter(Boolean))].sort()
   }
   return [...new Set(productStore.products.filter(p => p.status === 'active').map(p => p.category))].sort()
 })

@@ -360,9 +360,9 @@ const authStore = useAuthStore()
 function getChange(pmt) {
   if (isElectronic(pmt.paymentType)) return null
   const txn = txnStore.transactions.find(t => t.id?.toString() === pmt.transactionId?.toString())
-  // Prefer stored value; backend currently saves change_given as 0, so fall back to amountPaid - total
-  const stored = parseFloat(pmt.change ?? pmt.changeGiven ?? txn?.changeGiven ?? txn?.change ?? 0) || 0
+  const stored = parseFloat(pmt.changeGiven ?? pmt.change ?? txn?.changeGiven ?? txn?.change ?? 0) || 0
   if (stored > 0) return stored
+  // Fallback for older records where backend didn't compute change_given
   const amountPaid = parseFloat(txn?.amountPaid ?? pmt.amount ?? 0)
   const total      = parseFloat(txn?.total ?? 0)
   return amountPaid > total ? parseFloat((amountPaid - total).toFixed(2)) : 0

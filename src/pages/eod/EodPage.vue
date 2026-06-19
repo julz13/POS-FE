@@ -458,7 +458,7 @@ const todayShift = computed(() => {
 })
 
 const cashSalesDay     = computed(() => completedDayTxns.value.reduce((s, t) => s + t.payments.filter(p => p.method === 'Cash').reduce((a, p) => a + p.amount, 0), 0))
-const changeGivenDay   = computed(() => completedDayTxns.value.filter(t => t.payments.some(p => p.method === 'Cash')).reduce((s, t) => s + (t.change || 0), 0))
+const changeGivenDay   = computed(() => completedDayTxns.value.filter(t => t.payments.some(p => p.method === 'Cash')).reduce((s, t) => s + (t.changeGiven ?? t.change ?? 0), 0))
 const cashInDay        = computed(() => todayShift.value?.movements?.filter(m => m.type === 'in').reduce((s, m) => s + m.amount, 0) || 0)
 const cashOutDay       = computed(() => todayShift.value?.movements?.filter(m => m.type === 'out').reduce((s, m) => s + m.amount, 0) || 0)
 const expectedCash     = computed(() => (todayShift.value?.openingCash || 0) + cashSalesDay.value - changeGivenDay.value + cashInDay.value - cashOutDay.value)
