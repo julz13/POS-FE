@@ -1,0 +1,36 @@
+export const mockGRNs = [
+  {
+    id: 1,
+    grnNumber: 'GRN-2025-001',
+    poNumber: 'PO-2025-001',
+    poId: 1,
+    supplierId: 1,
+    supplierName: 'Coca-Cola Bottlers Philippines',
+    invoiceNumber: 'INV-CC-20250708',
+    receiveDate: '2025-07-08',
+    receivedBy: 'Maria Santos',
+    status: 'posted',
+    remarks: 'Complete delivery.',
+    items: [
+      { id: 1, productId: 1, productName: 'Coca-Cola 1.5L',       sku: 'BEV-001', orderedQty: 48,  receivedQty: 48,  costPrice: 55, tax: 0 },
+      { id: 2, productId: 8, productName: 'Nescafe 3-in-1 Original', sku: 'BEV-002', orderedQty: 300, receivedQty: 300, costPrice: 7,  tax: 0 },
+    ],
+  },
+  {
+    id: 2,
+    grnNumber: 'GRN-2025-002',
+    poNumber: 'PO-2025-002',
+    poId: 2,
+    supplierId: 2,
+    supplierName: 'Monde Nissin Corporation',
+    invoiceNumber: 'INV-MN-20250710',
+    receiveDate: '2025-07-10',
+    receivedBy: 'Maria Santos',
+    status: 'posted',
+    remarks: 'Partial delivery. Remaining items on backorder.',
+    items: [
+      { id: 1, productId: 2, productName: 'Lucky Me Pancit Canton', sku: 'SNK-001', orderedQty: 120, receivedQty: 60,  costPrice: 12, tax: 0 },
+      { id: 2, productId: 7, productName: 'Sky Flakes Crackers',    sku: 'SNK-002', orderedQty: 200, receivedQty: 200, costPrice: 8,  tax: 0 },
+    ],
+  },
+]

@@ -1,0 +1,46 @@
+export const mockQuotes = [
+  {
+    id: 'QOT-00001',
+    date: '2026-06-03',
+    validUntil: '2026-06-17',
+    customer: 'Juan dela Cruz',
+    phone: '09171234567',
+    items: [
+      { productId: 1, name: 'Coca-Cola 1.5L',         sku: 'BEV-001', qty: 24, price: 75,  lineDiscount: 5,  unit: 'Bottle' },
+      { productId: 8, name: 'Nescafe 3-in-1 Original', sku: 'BEV-002', qty: 100, price: 10, lineDiscount: 0,  unit: 'Sachet' },
+    ],
+    notes: 'For school fiesta — customer will confirm Friday',
+    status: 'draft',
+    createdBy: 'Pedro Reyes',
+    convertedTxnId: null,
+  },
+  {
+    id: 'QOT-00002',
+    date: '2026-06-02',
+    validUntil: '2026-06-16',
+    customer: 'Lorna Villanueva',
+    phone: '09153334444',
+    items: [
+      { productId: 7, name: 'Sky Flakes Crackers', sku: 'SNK-002', qty: 100, price: 12, lineDiscount: 10, unit: 'Pack' },
+      { productId: 2, name: 'Lucky Me Pancit Canton', sku: 'SNK-001', qty: 50, price: 16, lineDiscount: 5, unit: 'Pack' },
+    ],
+    notes: 'Wholesale bulk — awaiting confirmation',
+    status: 'sent',
+    createdBy: 'Pedro Reyes',
+    convertedTxnId: null,
+  },
+  {
+    id: 'QOT-00003',
+    date: '2026-05-20',
+    validUntil: '2026-06-03',
+    customer: 'Carlos Mendoza',
+    phone: '09201112222',
+    items: [
+      { productId: 4, name: 'Tide Powder 500g', sku: 'HGC-001', qty: 20, price: 55, lineDiscount: 0, unit: 'Pack' },
+    ],
+    notes: '',
+    status: 'expired',
+    createdBy: 'Pedro Reyes',
+    convertedTxnId: null,
+  },
+]
